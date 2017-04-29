@@ -265,11 +265,11 @@ template <class T>
 class Vec4 {
 
 	//---[ Private Variable Declarations ]-------
-
+public:
 		// x, y, z, w
 	T		n[4];
 
-public:
+
 	
 	//---[ Constructors ]------------------------
 
@@ -736,7 +736,7 @@ inline T operator *(const Vec3<T>& a, const Vec3<T>& b){
 
 template <class T>
 inline Vec3<T> operator *( const Mat3<T>& a, const Vec3<T>& v ) {
-		return Vec3<T>( a.n[0]*v.n[0]+a.n[1]*v.n[1]+a.n[2]*v.n[2],
+	return Vec3<T>( a.n[0]*v.n[0]+a.n[1]*v.n[1]+a.n[2]*v.n[2],
 					a.n[3]*v.n[0]+a.n[4]*v.n[1]+a.n[5]*v.n[2],
 					a.n[6]*v.n[0]+a.n[7]*v.n[1]+a.n[8]*v.n[2] );
 }
@@ -829,7 +829,7 @@ inline Vec4<T> operator *(const Mat4<T>& a, const Vec4<T>& v) {
 }
 
 template <class T>
-inline Vec4<T> operator *( const Vec4<T>& v, Mat4<T>& a ){
+inline Vec4<T> operator *( const Vec4<T>& v, const Mat4<T>& a ){
 	return a.transpose() * v;
 }
 
@@ -886,3 +886,4 @@ inline Vec4<T> prod(const Vec4<T>& a, const Vec4<T>& b ) {
 #pragma warning(pop)
 
 #endif
+

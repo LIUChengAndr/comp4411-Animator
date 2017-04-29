@@ -521,6 +521,7 @@ void SampleModel::draw()
 	}
 	
 	}
+	endDraw();
 }
 
 int main()

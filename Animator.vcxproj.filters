@@ -102,6 +102,18 @@
     <ClCompile Include="tex.cpp">
       <Filter>Source Files\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="Beziercurveevaluator.cpp">
+      <Filter>Source Files\Curves</Filter>
+    </ClCompile>
+    <ClCompile Include="Bsplinecurveevaluator.cpp">
+      <Filter>Source Files\Curves</Filter>
+    </ClCompile>
+    <ClCompile Include="CatmullRomcurveevaluator.cpp">
+      <Filter>Source Files\Curves</Filter>
+    </ClCompile>
+    <ClCompile Include="C2InterpolatingCurveEvaluator.cpp">
+      <Filter>Source Files\Curves</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="curve.h">
@@ -169,6 +181,18 @@
     </ClInclude>
     <ClInclude Include="tex.h">
       <Filter>Header Files\Particles.</Filter>
+    </ClInclude>
+    <ClInclude Include="Beziercurveevaluator.h">
+      <Filter>Header Files\Curves.</Filter>
+    </ClInclude>
+    <ClInclude Include="Bsplinecurveevaluator.h">
+      <Filter>Header Files\Curves.</Filter>
+    </ClInclude>
+    <ClInclude Include="CatmullRomcurveevaluator.h">
+      <Filter>Header Files\Curves.</Filter>
+    </ClInclude>
+    <ClInclude Include="C2InterpolatingCurveEvaluator.h">
+      <Filter>Header Files\Curves.</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
