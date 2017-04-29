@@ -17,8 +17,10 @@
 #define __PARTICLE_SYSTEM_H__
 
 #include "vec.h"
-
-
+#include <vector>
+#include <map>
+#include "Force.h"
+#include "Particle.h"
 
 class ParticleSystem {
 
@@ -27,7 +29,7 @@ public:
 
 
 	/** Constructor **/
-	ParticleSystem();
+	ParticleSystem(double gravity_a, double viscous_k);
 
 
 	/** Destructor **/
@@ -43,7 +45,7 @@ public:
 	virtual void bakeParticles(float t);
 
 	// This function should compute forces acting on all particles
-	// and update their state (pos and vel) appropriately.
+	// and update thGkkeir state (pos and vel) appropriately.
 	virtual void computeForcesAndUpdateParticles(float t);
 
 	// This function should reset the system to its initial state.
@@ -62,6 +64,10 @@ public:
 	// of baked particles (without leaking memory).
 	virtual void clearBaked();	
 
+	virtual bool isBakedAt(float t);
+
+	void SpawnParticles(Vec3d pos, int num);
+
 
 
 	// These accessor fxns are implemented for you
@@ -76,7 +82,10 @@ public:
 
 protected:
 	
-
+	float currentT;
+	vector<Particle> particles;
+	vector<Force*> forces;
+	map<float, vector<Particle>> bakeInfo;
 
 	/** Some baking-related state **/
 	float bake_fps;						// frame rate at which simulation was baked

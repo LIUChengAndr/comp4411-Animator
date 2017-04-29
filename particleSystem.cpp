@@ -2,21 +2,26 @@
 
 #include "particleSystem.h"
 
-
+#include <ctime>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <math.h>
 #include <limits.h>
+#include <vector>
+#include <FL/gl.h>
+#include "modelerdraw.h"
 
 
 /***************
  * Constructors
  ***************/
 
-ParticleSystem::ParticleSystem() 
+ParticleSystem::ParticleSystem(double gravity_a, double viscous_k) 
 {
-	// TODO
+	srand(time(0));
+	forces.push_back(new Gravity(Vec3d(0, -gravity_a, 0)));
+	forces.push_back(new Viscous(viscous_k));
 
 }
 
@@ -31,6 +36,8 @@ ParticleSystem::ParticleSystem()
 ParticleSystem::~ParticleSystem() 
 {
 	// TODO
+	particles.clear();
+	forces.clear();
 
 }
 
@@ -86,6 +93,19 @@ void ParticleSystem::computeForcesAndUpdateParticles(float t)
 {
 
 	// TODO
+	bake_fps = t - currentT;
+	currentT = t;
+	if (isSimulate())
+	{
+		if (!isBakedAt(t))
+		{
+			for (std::vector<Particle>::iterator it = particles.begin(); it != particles.end(); it++)
+			{
+				it->nextPos(bake_fps);
+			}
+			bakeParticles(t);
+		}
+	}
 }
 
 
@@ -94,6 +114,14 @@ void ParticleSystem::drawParticles(float t)
 {
 
 	// TODO
+	if (isSimulate())
+	{
+		for (std::vector<Particle>:: iterator it = particles.begin(); it != particles.end(); it++)
+		{
+			it->draw();
+			printf("drawing\n");
+		}
+	}
 }
 
 
@@ -106,6 +134,7 @@ void ParticleSystem::bakeParticles(float t)
 {
 
 	// TODO
+	bakeInfo.insert(std::pair<float, std::vector<Particle>>(t, particles));
 }
 
 /** Clears out your data structure of baked particles */
@@ -113,9 +142,41 @@ void ParticleSystem::clearBaked()
 {
 
 	// TODO
+	bakeInfo.clear();
 }
 
+bool ParticleSystem:: isBakedAt(float t)
+{
+	map<float, std::vector<Particle>>::iterator it = bakeInfo.find(t);
+	return (it!=bakeInfo.end());
+}
 
+void ParticleSystem:: SpawnParticles(Vec3d pos, int num)
+{
+	if (isSimulate())
+	{
+		if (!isBakedAt(currentT + bake_fps))
+		{
+			for (int i = 0; i < num; ++i)
+			{
+				double mass = rand()%5 + 0.2;
+				Particle p = Particle(pos, mass);
+				double F = rand() % 10 / 10.0 + 0.2;
+				double theta = rand() % 360 / 57.3;
 
+				double xSpeed = rand() % 10 / 10.0 + 2;
+				double ySpeed = cos(theta) * F;
+				double zSpeed = sin(theta) * F;
+				p.setSpeed(Vec3d(xSpeed, ySpeed, zSpeed));
+				for (std::vector<Force*>::iterator it = forces.begin(); it != forces.end(); it++)
+				{
+					p.add_force(*it);
+				}
+				particles.push_back(p);
+
+			}
+		}
+	}
+}
 
 

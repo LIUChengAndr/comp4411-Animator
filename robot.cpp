@@ -9,6 +9,7 @@
 #include "vec.h"
 #include "mat.h"
 #include "modelerglobals.h"
+#include "ParticleSystem.h">
 #include <math.h>
 // To make a SampleModel, we inherit off of ModelerView
 class SampleModel : public ModelerView 
@@ -105,6 +106,14 @@ public:
     	return result;
     }
     virtual void draw();
+    void drawParticles(Mat4d CameraMatrix, int num)
+	{
+	    Mat4d WorldMatrix = CameraMatrix.inverse() * getModelViewMatrix();
+	    Vec4d pos = WorldMatrix * Vec4d(0, 10, 2, 0);
+	    ParticleSystem *ps = ModelerApplication::Instance()->GetParticleSystem();
+	    ps->SpawnParticles(Vec3d(pos[0], pos[1], pos[2]), num);
+	}
+
     int arm_angle = 0;
 	int arm_angle_step = 1;
 	int leg_angle = 0;
@@ -137,23 +146,10 @@ void SampleModel::draw()
     // This call takes care of a lot of the nasty projection 
     // matrix stuff.  Unless you want to fudge directly with the 
 	// projection matrix, don't bother with this ...
-
-
-	// if(ModelerApplication::Instance()->m_animating == true)
-	// {
-	// 	arm_angle += arm_angle_step;
-	// 	if (arm_angle > 45 || arm_angle < -45)
-	// 	{
-	// 		arm_angle_step = -arm_angle_step;
-	// 	}
-	// 	leg_angle += leg_angle_step;
-	// 	if (leg_angle > 45 || leg_angle < -45)
-	// 	{
-	// 		leg_angle_step = -leg_angle_step;
-	// 	}
-	// }
 	
     ModelerView::draw();
+    Mat4d CameraMatrix = getModelViewMatrix();
+
 	GLfloat lightPosition0[] = { VAL(LIGHT0_POS_X), VAL(LIGHT0_POS_Y), VAL(LIGHT0_POS_Z), 0 };
 	GLfloat lightDiffuse0[]  = { VAL(LIGHT0_INTENSITY), VAL(LIGHT0_INTENSITY), VAL(LIGHT0_INTENSITY), VAL(LIGHT0_INTENSITY) };
 	GLfloat lightPosition1[] = { VAL(LIGHT1_POS_X), VAL(LIGHT1_POS_Y), VAL(LIGHT1_POS_Z), 0  };
@@ -208,6 +204,8 @@ void SampleModel::draw()
 		glTranslated(-1, 0.6, -1);
 
 		drawHead(VAL(ROTATE_HEAD_DEC), VAL(LEVEL_OF_DETAILS));
+		//Particle System
+		drawParticles(CameraMatrix, VAL(PARTICLE_NUM));
 
 		glPopMatrix();
 
@@ -253,6 +251,8 @@ void SampleModel::draw()
 			glTranslated(-1, -1, -1);
 		}
 		else drawShoulder(2, 0.5, VAL(LEVEL_OF_DETAILS));
+		
+
 		glTranslated(0, 0, 0.25);
 		glTranslated(0, -3, 0);
 		if (VAL(LEVEL_OF_DETAILS) > 1)
@@ -594,6 +594,15 @@ int main()
 	controls[CSTRN_X] = ModelerControl("Constraint point X", -20, 20, 1, 0);
 	controls[CSTRN_Y] = ModelerControl("Constraint point Y", -20, 20, 1, 0);
 	controls[CSTRN_Z] = ModelerControl("Constraint point Z", 10, 30, 1, 15);
+
+	controls[PARTICLE_NUM] = ModelerControl("Number of particel", 0, 50, 1, 5);
+
+	// You should create a ParticleSystem object ps here and then
+	// call ModelerApplication::Instance()->SetParticleSystem(ps)
+	// to hook it up to the animator interface.
+	ParticleSystem *ps = new ParticleSystem(5, 0.1);
+	ModelerApplication::Instance()->SetParticleSystem(ps);
+
     ModelerApplication::Instance()->Init(&createSampleModel, controls, NUMCONTROLS);
     return ModelerApplication::Instance()->Run();
 }

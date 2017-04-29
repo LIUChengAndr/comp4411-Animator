@@ -43,6 +43,8 @@ enum SampleModelControls
 	CSTRN_Y,
 	CSTRN_Z,
 
+	PARTICLE_NUM,
+
 	NUMCONTROLS
 };
 // IK

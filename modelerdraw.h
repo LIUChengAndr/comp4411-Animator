@@ -11,6 +11,8 @@
 #include <iostream>
 
 #include "modelerglobals.h"
+#include "mat.h"
+#include "vec.h">
 
 
 enum DrawModeSetting_t 
@@ -113,5 +115,9 @@ void drawHead(double angle, int level);
 void drawShoulder(double r, double h, int level);
 
 void drawLSystem(int size, int num);
+
+
+Mat4d getModelViewMatrix();
+
 
 #endif
