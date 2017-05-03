@@ -1,11 +1,31 @@
-﻿  curve.cpp
-curve.cpp(63): warning C4018: '<': signed/unsigned mismatch
-curve.cpp(215): warning C4018: '<': signed/unsigned mismatch
-curve.cpp(224): warning C4018: '<': signed/unsigned mismatch
-curve.cpp(237): warning C4018: '<': signed/unsigned mismatch
-curve.cpp(334): warning C4018: '<': signed/unsigned mismatch
-curve.cpp(366): warning C4018: '<': signed/unsigned mismatch
-curve.cpp(410): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-curve.cpp(430): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+﻿  robot.cpp
+\\mac\home\documents\c++\comp4411\project\project4\aniskels17\modelerdraw.h(15): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+robot.cpp(12): warning C4067: unexpected tokens following preprocessor directive - expected a newline
+robot.cpp(71): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+robot.cpp(73): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
+robot.cpp(153): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+robot.cpp(153): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(154): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+robot.cpp(154): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(155): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+robot.cpp(155): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(156): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
+robot.cpp(156): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(168): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+robot.cpp(304): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+robot.cpp(306): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+robot.cpp(351): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+robot.cpp(403): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+robot.cpp(590): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(591): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(605): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(606): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+robot.cpp(640): warning C4305: 'argument': truncation from 'double' to 'float'
+robot.cpp(644): warning C4305: 'argument': truncation from 'double' to 'float'
+\\mac\home\documents\c++\comp4411\project\project4\aniskels17\mat.h(199): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  \\mac\home\documents\c++\comp4411\project\project4\aniskels17\mat.h(180): note: while compiling class template member function 'Mat4<double> Mat4<double>::inverse(void) const'
+  robot.cpp(111): note: see reference to function template instantiation 'Mat4<double> Mat4<double>::inverse(void) const' being compiled
+  robot.cpp(91): note: see reference to class template instantiation 'Mat4<double>' being compiled
+\\mac\home\documents\c++\comp4411\project\project4\aniskels17\mat.h(207): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
   Animator.vcxproj -> \\Mac\Home\Documents\C++\COMP4411\Project\Project4\AniSkelS17\.\Release\modeler.exe
   Animator.vcxproj -> .\Release/Animator.pdb (Full PDB)

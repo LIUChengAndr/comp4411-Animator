@@ -170,6 +170,104 @@ void SampleModel::draw()
 	}
 	else
 	{
+		// Store the current matrix
+    glPushMatrix();
+    // Reset and transform the matrix.
+    // gluLookAt(
+    //     0,0,0,
+    //     camera->x(),camera->y(),camera->z(),
+    //     0,1,0);
+ 
+    // Enable/Disable features
+    glPushAttrib(GL_ENABLE_BIT);
+    glEnable(GL_TEXTURE_2D);
+    glDisable(GL_DEPTH_TEST);
+ 
+    // Just in case we set all vertices to white.
+	setAmbientColor(.1f,.1f,.1f);
+	setDiffuseColor(COLOR_WHITE);
+
+    // Render the front quad
+    // glBindTexture(GL_TEXTURE_2D, _skybox[0]);
+	glTranslated(0, 4, 0);
+	glScaled(40, 40, 40);
+    // glEnable(GL_TEXTURE_2D);
+    Texture tex;
+    tex.loadBMP_custom("Image/cliffFront.bmp");
+ //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
+        glTexCoord2f(1, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
+        glTexCoord2f(1, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
+        glTexCoord2f(0, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
+    glEnd();
+ 
+    // Render the left quad
+    // glBindTexture(GL_TEXTURE_2D, _skybox[1]);
+    tex.loadBMP_custom("Image/cliffLeft.bmp");
+ //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f(  0.5f, -0.5f,  0.5f );
+        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
+        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
+        glTexCoord2f(0, 1); glVertex3f(  0.5f,  0.5f,  0.5f );
+    glEnd();
+ 
+    // Render the back quad
+    // glBindTexture(GL_TEXTURE_2D, _skybox[2]);
+    tex.loadBMP_custom("Image/cliffBack.bmp");
+ //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f,  0.5f );
+        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f,  0.5f );
+        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f,  0.5f );
+        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f,  0.5f );
+ 
+    glEnd();
+ 
+    // Render the right quad
+    // glBindTexture(GL_TEXTURE_2D, _skybox[3]);
+    tex.loadBMP_custom("Image/cliffRight.bmp");
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
+        glTexCoord2f(1, 0); glVertex3f( -0.5f, -0.5f,  0.5f );
+        glTexCoord2f(1, 1); glVertex3f( -0.5f,  0.5f,  0.5f );
+        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
+    glEnd();
+ 
+    // Render the top quad
+    // glBindTexture(GL_TEXTURE_2D, _skybox[4]);
+    tex.loadBMP_custom("Image/cliffTop.bmp");
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
+        glTexCoord2f(0, 0); glVertex3f( -0.5f,  0.5f,  0.5f );
+        glTexCoord2f(1, 0); glVertex3f(  0.5f,  0.5f,  0.5f );
+        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
+    glEnd();
+ 
+    // Render the bottom quad
+    // glBindTexture(GL_TEXTURE_2D, _skybox[5]);
+    tex.loadBMP_custom("Image/cliffBottom.bmp");
+//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+    glBegin(GL_QUADS);
+        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
+        glTexCoord2f(0, 1); glVertex3f( -0.5f, -0.5f,  0.5f );
+        glTexCoord2f(1, 1); glVertex3f(  0.5f, -0.5f,  0.5f );
+        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
+    glEnd();
+ 
+    // Restore enable bits and matrix
+    glPopAttrib();
+    glPopMatrix();
+    glDisable(GL_TEXTURE_2D);
 	if (VAL(MOOD_CYCLE))
 	{
 		SET(ROTATE_HEAD_X, 30);
@@ -519,6 +617,7 @@ void SampleModel::draw()
 
 	glPopMatrix();
 	}
+	
 	
 	}
 	endDraw();
