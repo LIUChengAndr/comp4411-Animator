@@ -401,6 +401,18 @@ void ModelerUI::cb_adaptive(Fl_Light_Button* o, void* v)
 	((ModelerUI*)(o->user_data()))->cb_adaptive_i(o, v);
 }
 
+inline void ModelerUI::cb_tension_i(Fl_Slider*, void*)
+{
+	m_pwndGraphWidget->currCurveTension(m_psldrTension->value());
+	m_pwndGraphWidget->redraw();
+}
+
+void ModelerUI::cb_tension(Fl_Slider*o, void*v)
+{
+	((ModelerUI*)(o->user_data()))->cb_tension_i(o, v);
+}
+
+
 inline void ModelerUI::cb_indicatorWnd_i(IndicatorWindow*, void*) 
 {
 	currTime(m_pwndIndicatorWnd->floatingIndicator());
@@ -637,10 +649,12 @@ void ModelerUI::activeCurvesChanged()
 		m_pbtWrap->value(m_pwndGraphWidget->currCurveWrap());
 		m_pbtAdaptive->activate();
 		m_pbtAdaptive->value(m_pwndGraphWidget->currCurveAdaptive());
+		m_psldrTension->activate();
 	}
 	else {
 		m_pbtWrap->deactivate();
 		m_pbtAdaptive->deactivate();
+		m_psldrTension->deactivate();
 	}
 }
 
@@ -888,6 +902,8 @@ void ModelerUI::fps(const int iFps)
 	m_iFps = iFps;
 }
 
+
+
 ModelerUI::ModelerUI() : 
 m_iCurrControlCount(0), 
 m_pcbfValueChangedCallback(NULL),
@@ -916,6 +932,7 @@ m_bSaveMovie(false)
 	m_pchoCurveType->callback((Fl_Callback*)cb_curveType);
 	m_pbtWrap->callback((Fl_Callback*)cb_wrap);
 	m_pbtAdaptive->callback((Fl_Callback*)cb_adaptive);
+	m_psldrTension->callback((Fl_Callback*)cb_tension);
 	m_pbtSetCamKeyFrame->callback((Fl_Callback*)cb_setCamKeyFrame);
 	m_pbtRemoveCamKeyFrame->callback((Fl_Callback*)cb_removeCamKeyFrame);
 	m_pbtRemoveAllCamKeyFrames->callback((Fl_Callback*)cb_removeAllCamKeyFrames);
@@ -931,6 +948,7 @@ m_bSaveMovie(false)
 	m_pbtSimulate->callback((Fl_Callback*)cb_simulate);
 	m_psldrFPS->callback((Fl_Callback*)cb_fps);
 
+	m_psldrTension->value(0.5);
 	m_pwndMainWnd->callback((Fl_Callback*)cb_hide);
 	m_pwndMainWnd->when(FL_HIDE);
 

@@ -876,6 +876,29 @@ void GraphWidget::adaptiveCurve(int iCurve, bool bAdaptive)
 {
 	m_pcrvvCurves[iCurve]->adaptive(bAdaptive);
 }
+
+double GraphWidget::currCurveTension() const
+{
+	if (m_iCurrCurve >= 0)
+	{
+		double dTension = m_pcrvvCurves[m_iCurrCurve]->tension();
+		return dTension;
+	}
+	return -1;
+}
+
+void GraphWidget::currCurveTension(double dTension)
+{
+	if (m_iCurrCurve >= 0)
+	{
+		m_pcrvvCurves[m_iCurrCurve]->tension(dTension);
+	}
+}
+
+void GraphWidget::tensionCurve(int iCurve, double dTension)
+{
+	m_pcrvvCurves[iCurve]->tension(dTension);
+}
 void GraphWidget::invalidateAllCurves()
 {
 	for (int i = 0; i < m_pcrvvCurves.size(); ++i)

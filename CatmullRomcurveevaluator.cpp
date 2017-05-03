@@ -11,7 +11,8 @@ void CatmullRomCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPt
 										 std::vector<Point>& ptvEvaluatedCurvePts, 
 										 const float& fAniLength, 
 										 const bool& bWrap,
-										 const bool& bAdaptive) const
+										 const bool& bAdaptive,
+										 const double& dTension) const
 {
 	ptvEvaluatedCurvePts.clear();
 
@@ -44,7 +45,7 @@ void CatmullRomCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPt
 		-1, 3, -3, 1,
 		2, -5, 4, -1,
 		-1, 0, 1, 0,
-		0, 2, 0, 0)*0.5;
+		0, 2, 0, 0)*dTension;
 
 	for (int i = 0; i < controlPointsCopy.size() - 3; ++i)
 	{

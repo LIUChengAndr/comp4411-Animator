@@ -37,6 +37,7 @@ public:
 	void animate(bool bAnimate);
 	int fps();
 	void fps(int fps);
+	
 	bool simulate() const;
 	void simulate(bool bSimulate);
 	void redrawModelerView();
@@ -111,6 +112,8 @@ private:
 	static void cb_wrap(Fl_Light_Button*, void*);
 	inline void cb_adaptive_i(Fl_Light_Button*, void*);
 	static void cb_adaptive(Fl_Light_Button*, void*);
+	inline void cb_tension_i(Fl_Slider*, void*);
+	static void cb_tension(Fl_Slider*, void*);
 	inline void cb_indicatorWnd_i(IndicatorWindow*, void*);
 	static void cb_indicatorWnd(IndicatorWindow*, void*);
 	inline void cb_setCamKeyFrame_i(Fl_Button*, void*);
@@ -142,5 +145,7 @@ private:
 	static void cb_timed(void *); // timed callback for animation
 };
 
+
 #endif
+
 

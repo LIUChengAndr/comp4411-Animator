@@ -46,6 +46,8 @@ public:
 	bool wrap() const;
 	void adaptive(bool bAdaptive);
 	bool adaptive() const;
+	double tension();
+	void tension(double tension);
 	void drawEvaluatedCurveSegments(void) const;
 	void drawControlPoints(void) const;
 	void drawControlPoint(int iCtrlPt) const;
@@ -70,6 +72,7 @@ protected:
 	float m_fMaxX;
 	bool m_bWrap;
 	bool m_bAdaptive;
+	double m_dTension;
 	static float s_fCtrlPtXEpsilon;
 };
 

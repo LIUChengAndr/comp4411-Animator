@@ -14,7 +14,8 @@ public:
 		std::vector<Point>& ptvEvaluatedCurvePts, 
 		const float& fAniLength, 
 		const bool& bWrap,
-		const bool& bAdaptive) const override;
+		const bool& bAdaptive,
+		const double& dTension) const override;
 
 private:
 	/*

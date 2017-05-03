@@ -102,9 +102,14 @@ public:
 	void currCurveWrap(bool bWrap);
 	void adaptiveActiveCurves(bool bWrap);
 	void adaptiveCurve(int iCurve, bool bWrap);
-	// -1: invalid, 0: not wrapped, 1: wrapped
+	// -1: invalid, 0: not adaptive, 1: adaptive 
 	int currCurveAdaptive() const;
 	void currCurveAdaptive(bool bWrap);
+
+	void tensionActiveCurves(double dTension);
+	void tensionCurve(int iCurve, double dTension);
+	double currCurveTension() const;
+	void currCurveTension(double dTension);
 	void invalidateAllCurves();
 	// note that this value is evaluated lazily (it's only updated
 	// after a redraw.
