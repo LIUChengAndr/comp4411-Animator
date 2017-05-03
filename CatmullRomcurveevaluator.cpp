@@ -3,13 +3,15 @@
 #include "mat.h"
 #include "vec.h"
 #include "modelerapp.h"
+#include "modelerglobals.h"
 
 #define SEGMENT 30
 
 void CatmullRomCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPts, 
 										 std::vector<Point>& ptvEvaluatedCurvePts, 
 										 const float& fAniLength, 
-										 const bool& bWrap) const
+										 const bool& bWrap,
+										 const bool& bAdaptive) const
 {
 	ptvEvaluatedCurvePts.clear();
 
@@ -42,7 +44,7 @@ void CatmullRomCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPt
 		-1, 3, -3, 1,
 		2, -5, 4, -1,
 		-1, 0, 1, 0,
-		0, 2, 0, 0)/2.0;
+		0, 2, 0, 0)*0.5;
 
 	for (int i = 0; i < controlPointsCopy.size() - 3; ++i)
 	{

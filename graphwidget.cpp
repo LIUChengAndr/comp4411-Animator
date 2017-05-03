@@ -855,6 +855,27 @@ void GraphWidget::wrapCurve(int iCurve, bool bWrap)
 	m_pcrvvCurves[iCurve]->wrap(bWrap);
 }
 
+int GraphWidget::currCurveAdaptive() const
+{
+	if (m_iCurrCurve >= 0) {
+		bool bAdaptive= m_pcrvvCurves[m_iCurrCurve]->adaptive();
+		return bAdaptive ? 1 : 0;
+	}
+
+	return -1;
+}
+
+void GraphWidget::currCurveAdaptive(bool bAdaptive)
+{
+	if (m_iCurrCurve >= 0) {
+		m_pcrvvCurves[m_iCurrCurve]->adaptive(bAdaptive);
+	}
+}
+
+void GraphWidget::adaptiveCurve(int iCurve, bool bAdaptive)
+{
+	m_pcrvvCurves[iCurve]->adaptive(bAdaptive);
+}
 void GraphWidget::invalidateAllCurves()
 {
 	for (int i = 0; i < m_pcrvvCurves.size(); ++i)

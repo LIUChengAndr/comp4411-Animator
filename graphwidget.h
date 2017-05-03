@@ -100,6 +100,11 @@ public:
 	// -1: invalid, 0: not wrapped, 1: wrapped
 	int currCurveWrap() const;
 	void currCurveWrap(bool bWrap);
+	void adaptiveActiveCurves(bool bWrap);
+	void adaptiveCurve(int iCurve, bool bWrap);
+	// -1: invalid, 0: not wrapped, 1: wrapped
+	int currCurveAdaptive() const;
+	void currCurveAdaptive(bool bWrap);
 	void invalidateAllCurves();
 	// note that this value is evaluated lazily (it's only updated
 	// after a redraw.

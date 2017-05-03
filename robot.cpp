@@ -596,6 +596,7 @@ int main()
 	controls[CSTRN_Z] = ModelerControl("Constraint point Z", 10, 30, 1, 15);
 
 	controls[PARTICLE_NUM] = ModelerControl("Number of particel", 0, 50, 1, 5);
+	controls[TENSION] = ModelerControl("Tension for CatmullRom", 0, 5, 0.1, 0.5);
 
 	// You should create a ParticleSystem object ps here and then
 	// call ModelerApplication::Instance()->SetParticleSystem(ps)

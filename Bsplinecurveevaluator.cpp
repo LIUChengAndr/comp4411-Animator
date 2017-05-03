@@ -10,7 +10,8 @@
 void  BsplineCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPts, 
 										 std::vector<Point>& ptvEvaluatedCurvePts, 
 										 const float& fAniLength, 
-										 const bool& bWrap) const
+										 const bool& bWrap,
+										 const bool& bAdaptive) const
 {
 	ptvEvaluatedCurvePts.clear();
 	std::vector<Point> controlPointsCopy;
@@ -67,7 +68,7 @@ void  BsplineCurveEvaluator::evaluateCurve(const std::vector<Point>& ptvCtrlPts,
 			convertBezierPts.push_back(Point(convert_x[j], convert_y[j]));
 		}
 		std::vector<Point> input_pts;
-		helper.evaluateCurve(convertBezierPts, input_pts, fAniLength, false);
+		helper.evaluateCurve(convertBezierPts, input_pts, fAniLength, false, bAdaptive);
 		ptvEvaluatedCurvePts.insert(ptvEvaluatedCurvePts.end(), input_pts.begin(), input_pts.end());
 	}
 	if (!bWrap) 

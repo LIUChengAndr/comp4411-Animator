@@ -125,6 +125,11 @@ ModelerUIWindows::ModelerUIWindows() {
             o->labelsize(12);
             o->user_data((void*)(this));
           }
+          {
+            Fl_Light_Button* o = m_pbtAdaptive = new Fl_Light_Button(415, 470, 70, 20, "Adaptive");
+            o->labelsize(12);
+            o->user_data((void*)(this));
+          }
           { Fl_Button* o = m_pbtZoomAll = new Fl_Button(505, 470, 75, 20, "Z&oom All");
             o->labelsize(12);
             o->user_data((void*)(this));

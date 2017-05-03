@@ -1,31 +1,38 @@
-﻿  robot.cpp
+﻿  curve.cpp
+curve.cpp(60): warning C4018: '<': signed/unsigned mismatch
+curve.cpp(202): warning C4018: '<': signed/unsigned mismatch
+curve.cpp(211): warning C4018: '<': signed/unsigned mismatch
+curve.cpp(224): warning C4018: '<': signed/unsigned mismatch
+curve.cpp(321): warning C4018: '<': signed/unsigned mismatch
+curve.cpp(353): warning C4018: '<': signed/unsigned mismatch
+curve.cpp(397): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+curve.cpp(417): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
+  modelerui.cpp
 \\mac\home\documents\c++\comp4411\project\project4\aniskels17\modelerdraw.h(15): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-robot.cpp(12): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-robot.cpp(71): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-robot.cpp(73): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-robot.cpp(153): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-robot.cpp(153): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(154): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-robot.cpp(154): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(155): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-robot.cpp(155): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(156): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
-robot.cpp(156): warning C4244: 'initializing': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(168): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-robot.cpp(206): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-robot.cpp(208): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-robot.cpp(253): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-robot.cpp(305): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
-robot.cpp(492): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(493): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(507): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(508): warning C4244: 'argument': conversion from 'double' to 'GLfloat', possible loss of data
-robot.cpp(541): warning C4305: 'argument': truncation from 'double' to 'float'
-robot.cpp(545): warning C4305: 'argument': truncation from 'double' to 'float'
-\\mac\home\documents\c++\comp4411\project\project4\aniskels17\mat.h(199): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  \\mac\home\documents\c++\comp4411\project\project4\aniskels17\mat.h(180): note: while compiling class template member function 'Mat4<double> Mat4<double>::inverse(void) const'
-  robot.cpp(111): note: see reference to function template instantiation 'Mat4<double> Mat4<double>::inverse(void) const' being compiled
-  robot.cpp(91): note: see reference to class template instantiation 'Mat4<double>' being compiled
-\\mac\home\documents\c++\comp4411\project\project4\aniskels17\mat.h(207): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(57): warning C4996: '_splitpath': This function or variable may be unsafe. Consider using _splitpath_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(1096): note: see declaration of '_splitpath'
+modelerui.cpp(86): warning C4996: '_splitpath': This function or variable may be unsafe. Consider using _splitpath_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(1096): note: see declaration of '_splitpath'
+modelerui.cpp(109): warning C4996: '_splitpath': This function or variable may be unsafe. Consider using _splitpath_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files\Windows Kits\10\Include\10.0.10240.0\ucrt\stdlib.h(1096): note: see declaration of '_splitpath'
+modelerui.cpp(246): warning C4244: 'argument': conversion from 'double' to 'int', possible loss of data
+modelerui.cpp(416): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(417): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(443): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(455): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(468): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(478): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(488): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(579): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(664): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1952): note: see declaration of '_snprintf'
+modelerui.cpp(742): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1952): note: see declaration of '_snprintf'
+modelerui.cpp(767): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1952): note: see declaration of '_snprintf'
+modelerui.cpp(786): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+modelerui.cpp(829): warning C4996: '_snprintf': This function or variable may be unsafe. Consider using _snprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files\Windows Kits\10\Include\10.0.10240.0\ucrt\stdio.h(1952): note: see declaration of '_snprintf'
+  Generating Code...
   Animator.vcxproj -> \\Mac\Home\Documents\C++\COMP4411\Project\Project4\AniSkelS17\.\Release\modeler.exe
   Animator.vcxproj -> .\Release/Animator.pdb (Full PDB)

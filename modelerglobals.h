@@ -44,6 +44,7 @@ enum SampleModelControls
 	CSTRN_Z,
 
 	PARTICLE_NUM,
+	TENSION,
 
 	NUMCONTROLS
 };

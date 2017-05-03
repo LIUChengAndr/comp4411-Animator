@@ -20,6 +20,7 @@ float Curve::s_fCtrlPtXEpsilon = 0.0001f;
 Curve::Curve() :
 	m_pceEvaluator(NULL),
 	m_bWrap(false),
+	m_bAdaptive(false),
 	m_bDirty(true),
 	m_fMaxX(1.0f)
 {
@@ -29,6 +30,7 @@ Curve::Curve() :
 Curve::Curve(const float fMaxX, const Point& point) :
 	m_pceEvaluator(NULL),
 	m_bWrap(false),
+	m_bAdaptive(false),
 	m_bDirty(true),
 	m_fMaxX(fMaxX)
 {
@@ -38,6 +40,7 @@ Curve::Curve(const float fMaxX, const Point& point) :
 Curve::Curve(const float fMaxX, const float fStartYValue) :
 	m_pceEvaluator(NULL),
 	m_bWrap(false),
+	m_bAdaptive(false),
 	m_bDirty(true),
 	m_fMaxX(fMaxX)
 {
@@ -109,6 +112,17 @@ void Curve::wrap(bool bWrap)
 bool Curve::wrap() const
 {
 	return m_bWrap;
+}
+
+void Curve::adaptive(bool bAdaptive)
+{
+	m_bAdaptive = bAdaptive;
+	m_bDirty = true;
+}
+
+bool Curve::adaptive() const
+{
+	return m_bAdaptive;
 }
 
 float Curve::evaluateCurveAt(const float x) const
@@ -417,7 +431,8 @@ void Curve::reevaluate() const
 			m_pceEvaluator->evaluateCurve(m_ptvCtrlPts, 
 				m_ptvEvaluatedCurvePts, 
 				m_fMaxX, 
-				m_bWrap);
+				m_bWrap,
+				m_bAdaptive);
 
 			std::sort(m_ptvEvaluatedCurvePts.begin(),
 				m_ptvEvaluatedCurvePts.end(),
