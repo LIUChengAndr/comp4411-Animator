@@ -137,7 +137,18 @@ ModelerUIWindows::ModelerUIWindows() {
             o->minimum(0.1);
             o->maximum(2.0);
             o->step(0.1);
-            o->value(0.2);
+            o->value(0.5);
+            o->user_data((void*)(this)); // record self to be used by static callback functions
+            o->align(FL_ALIGN_LEFT);
+          }
+          {
+            Fl_Value_Slider* o = m_psldrFlatness = new Fl_Value_Slider(400, 500, 120, 20, "Flatness");
+            o->type(5);
+            o->labelsize(12);
+            o->minimum(0.00001);
+            o->maximum(0.01);
+            o->step(0.00001);
+            o->value(0.0001);
             o->user_data((void*)(this)); // record self to be used by static callback functions
             o->align(FL_ALIGN_LEFT);
           }

@@ -113,7 +113,7 @@ bool flatEnough(const Vec4d& px, const Vec4d& py)
 	{
 		V[i] = Point(px[i], py[i]);
 	}
-	return ((V[0].distance(V[1]) + V[1].distance(V[2]) + V[2].distance(V[3]))/V[0].distance(V[3]) < 1.001);
+	return ((V[0].distance(V[1]) + V[1].distance(V[2]) + V[2].distance(V[3]))/V[0].distance(V[3]) < (1 + CurveEvaluator::s_fFlatnessEpsilon));
 }
 void displayBezier(std::vector<Point>& ptvEvaluatedCurvePts, const Vec4d& px, const Vec4d& py)
 {
