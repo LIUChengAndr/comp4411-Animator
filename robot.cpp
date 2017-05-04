@@ -105,6 +105,13 @@ public:
     	Vec3d result = reflect_mat * v;
     	return result;
     }
+    Mat4d reflect_mat(double a, double b, double c, double d)
+    {
+    	return Mat4d(1 - 2*a*a, -2*a*b, -2*a*c, -2*a*d,
+    	 -2*a*b, 1-2*b*b, -2*b*c, -2*b*d, 
+    	  -2*a*c, -2*b*c, 1-2*c*c, -2*c*d,
+    	  0, 0, 0, 1);
+    }
     virtual void draw();
     void drawParticles(Mat4d CameraMatrix, int num)
 	{
@@ -149,6 +156,7 @@ void SampleModel::draw()
 	
     ModelerView::draw();
     Mat4d CameraMatrix = getModelViewMatrix();
+    glClear(GL_DEPTH_BUFFER_BIT);
 
 	GLfloat lightPosition0[] = { VAL(LIGHT0_POS_X), VAL(LIGHT0_POS_Y), VAL(LIGHT0_POS_Z), 0 };
 	GLfloat lightDiffuse0[]  = { VAL(LIGHT0_INTENSITY), VAL(LIGHT0_INTENSITY), VAL(LIGHT0_INTENSITY), VAL(LIGHT0_INTENSITY) };
@@ -170,104 +178,85 @@ void SampleModel::draw()
 	}
 	else
 	{
-		// Store the current matrix
-    glPushMatrix();
-    // Reset and transform the matrix.
-    // gluLookAt(
-    //     0,0,0,
-    //     camera->x(),camera->y(),camera->z(),
-    //     0,1,0);
- 
-    // Enable/Disable features
-    glPushAttrib(GL_ENABLE_BIT);
-    glEnable(GL_TEXTURE_2D);
-    glDisable(GL_DEPTH_TEST);
- 
-    // Just in case we set all vertices to white.
-	setAmbientColor(.1f,.1f,.1f);
-	setDiffuseColor(COLOR_WHITE);
+		if (VAL(SKYBOX))
+		{
+			
+			// Store the current matrix
+		    glPushMatrix();
+		    // Reset and transform the matrix.
+	 
+		    // Enable/Disable features
+		    glPushAttrib(GL_ENABLE_BIT);
+	   		glEnable(GL_TEXTURE_2D);
+	   		glEnable(GL_DEPTH_TEST);
+	 
+		    // Just in case we set all vertices to white.
+			setAmbientColor(.1f,.1f,.1f);
+			setDiffuseColor(COLOR_WHITE);
 
-    // Render the front quad
-    // glBindTexture(GL_TEXTURE_2D, _skybox[0]);
-	glTranslated(0, 4, 0);
-	glScaled(40, 40, 40);
-    // glEnable(GL_TEXTURE_2D);
-    Texture tex;
-    tex.loadBMP_custom("Image/cliffFront.bmp");
- //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
-        glTexCoord2f(1, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
-        glTexCoord2f(1, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
-        glTexCoord2f(0, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
-    glEnd();
- 
-    // Render the left quad
-    // glBindTexture(GL_TEXTURE_2D, _skybox[1]);
-    tex.loadBMP_custom("Image/cliffLeft.bmp");
- //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 0); glVertex3f(  0.5f, -0.5f,  0.5f );
-        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
-        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
-        glTexCoord2f(0, 1); glVertex3f(  0.5f,  0.5f,  0.5f );
-    glEnd();
- 
-    // Render the back quad
-    // glBindTexture(GL_TEXTURE_2D, _skybox[2]);
-    tex.loadBMP_custom("Image/cliffBack.bmp");
- //    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f,  0.5f );
-        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f,  0.5f );
-        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f,  0.5f );
-        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f,  0.5f );
- 
-    glEnd();
- 
-    // Render the right quad
-    // glBindTexture(GL_TEXTURE_2D, _skybox[3]);
-    tex.loadBMP_custom("Image/cliffRight.bmp");
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
-        glTexCoord2f(1, 0); glVertex3f( -0.5f, -0.5f,  0.5f );
-        glTexCoord2f(1, 1); glVertex3f( -0.5f,  0.5f,  0.5f );
-        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
-    glEnd();
- 
-    // Render the top quad
-    // glBindTexture(GL_TEXTURE_2D, _skybox[4]);
-    tex.loadBMP_custom("Image/cliffTop.bmp");
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
-        glTexCoord2f(0, 0); glVertex3f( -0.5f,  0.5f,  0.5f );
-        glTexCoord2f(1, 0); glVertex3f(  0.5f,  0.5f,  0.5f );
-        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
-    glEnd();
- 
-    // Render the bottom quad
-    // glBindTexture(GL_TEXTURE_2D, _skybox[5]);
-    tex.loadBMP_custom("Image/cliffBottom.bmp");
-//     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
-    glBegin(GL_QUADS);
-        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
-        glTexCoord2f(0, 1); glVertex3f( -0.5f, -0.5f,  0.5f );
-        glTexCoord2f(1, 1); glVertex3f(  0.5f, -0.5f,  0.5f );
-        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
-    glEnd();
- 
-    // Restore enable bits and matrix
-    glPopAttrib();
-    glPopMatrix();
-    glDisable(GL_TEXTURE_2D);
+		    // Render the front quad
+			glTranslated(0, 4, 0);
+			glScaled(100, 100, 100);
+		    Texture tex;
+		    tex.loadBMP_custom("Image/cliffFront.bmp");
+		    glBegin(GL_QUADS);
+		        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
+		        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
+		        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
+		        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
+		    glEnd();
+		 
+		    // Render the left quad
+		    tex.loadBMP_custom("Image/cliffLeft.bmp");
+		    glBegin(GL_QUADS);
+		        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f,  0.5f );
+		        glTexCoord2f(0, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
+		        glTexCoord2f(0, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
+		        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f,  0.5f );
+		    glEnd();
+		 
+		    // Render the back quad
+		    tex.loadBMP_custom("Image/cliffBack.bmp");
+		    glBegin(GL_QUADS);
+		        glTexCoord2f(1, 0); glVertex3f( -0.5f, -0.5f,  0.5f );
+		        glTexCoord2f(0, 0); glVertex3f(  0.5f, -0.5f,  0.5f );
+		        glTexCoord2f(0, 1); glVertex3f(  0.5f,  0.5f,  0.5f );
+		        glTexCoord2f(1, 1); glVertex3f( -0.5f,  0.5f,  0.5f );
+		 
+		    glEnd();
+		 
+		    // Render the right quad
+		    tex.loadBMP_custom("Image/cliffRight.bmp");
+		    glBegin(GL_QUADS);
+		        glTexCoord2f(1, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
+		        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f,  0.5f );
+		        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f,  0.5f );
+		        glTexCoord2f(1, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
+		    glEnd();
+		 
+		    // Render the top quad
+		    tex.loadBMP_custom("Image/cliffTop.bmp");
+		    glBegin(GL_QUADS);
+		        glTexCoord2f(0, 1); glVertex3f( -0.5f,  0.5f, -0.5f );
+		        glTexCoord2f(0, 0); glVertex3f( -0.5f,  0.5f,  0.5f );
+		        glTexCoord2f(1, 0); glVertex3f(  0.5f,  0.5f,  0.5f );
+		        glTexCoord2f(1, 1); glVertex3f(  0.5f,  0.5f, -0.5f );
+		    glEnd();
+		 
+		    // Render the bottom quad
+		    tex.loadBMP_custom("Image/cliffBottom.bmp");
+		    glBegin(GL_QUADS);
+		        glTexCoord2f(0, 0); glVertex3f( -0.5f, -0.5f, -0.5f );
+		        glTexCoord2f(0, 1); glVertex3f( -0.5f, -0.5f,  0.5f );
+		        glTexCoord2f(1, 1); glVertex3f(  0.5f, -0.5f,  0.5f );
+		        glTexCoord2f(1, 0); glVertex3f(  0.5f, -0.5f, -0.5f );
+		    glEnd();
+		 
+		    // Restore enable bits and matrix
+		    glPopAttrib();
+		    glPopMatrix();
+		    glDisable(GL_TEXTURE_2D);
+		}
 	if (VAL(MOOD_CYCLE))
 	{
 		SET(ROTATE_HEAD_X, 30);
@@ -278,13 +267,7 @@ void SampleModel::draw()
 		SET(ROTATE_RIGHT_ARM_L_X, 120);
 		SET(ROTATE_LEFT_ARM_L_X, 120);
 	}
-	setAmbientColor(.1f,.1f,.1f);
-	setDiffuseColor(COLOR_RED);
-	glPushMatrix();
-	glTranslated(-5,-5,-5);
-	drawBox(10,0.01f,10);
-	glPopMatrix();
-
+	
 	// draw the sample model
 	setAmbientColor(.1f,.1f,.1f);
 	setDiffuseColor(COLOR_GRAY);
@@ -562,6 +545,315 @@ void SampleModel::draw()
 
 	glPopMatrix();
 
+	if (VAL(MIRROR))
+	{
+		glEnable(GL_STENCIL_TEST);
+		glStencilFunc(GL_ALWAYS, 1, 0xFF); // Set any stencil to 1
+    	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    	glStencilMask(0xFF); // Write to stencil buffer
+    	glClear(GL_STENCIL_BUFFER_BIT); // Clear stencil buffer (0 by default)
+	}
+	setAmbientColor(.1f,.1f,.1f);
+	setDiffuseColor(COLOR_WHITE);
+	glPushMatrix();
+	glTranslated(-5,-5,-5);
+	glDepthMask(GL_FALSE);
+	drawBox(10,0.01f,10);
+	glDepthMask(GL_TRUE);
+	glPopMatrix();
+	if (VAL(MIRROR))
+	{
+		// Draw cube reflection
+    	glStencilFunc(GL_EQUAL, 1, 0xFF); // Pass test if stencil value is 1
+    	glStencilMask(0x00); // Don't write anything to stencil buffer
+	}
+	if (VAL(MIRROR))
+	{
+		glPushMatrix();
+		Mat4d RM = reflect_mat(0, 1, 0, 5);
+		double glM[16];
+		RM.getGLMatrix(glM);
+		glMultMatrixd(glM);	
+
+		// draw the sample model
+		setAmbientColor(.1f,.1f,.1f);
+		setDiffuseColor(COLOR_GRAY);
+		glPushMatrix();
+		glTranslated(VAL(XPOS), VAL(YPOS), VAL(ZPOS));
+
+			setAmbientColor(.1f,.1f,.1f);
+			setDiffuseColor(COLOR_GREY);
+			glPushMatrix();
+			glTranslated(-1, 15, -1);
+			glTranslated(1, -0.6, 1);
+			glRotated(VAL(ROTATE_HEAD_X), 1.0, 0.0, 0.0);
+			glRotated(VAL(ROTATE_HEAD_Y), 0.0, 1.0, 0.0);
+			glRotated(VAL(ROTATE_HEAD_Z), 0.0, 0.0, 1.0);
+			glTranslated(-1, 0.6, -1);
+
+			drawHead(VAL(ROTATE_HEAD_DEC), VAL(LEVEL_OF_DETAILS));
+			//Particle System
+			drawParticles(CameraMatrix, VAL(PARTICLE_NUM));
+
+			glPopMatrix();
+
+			// draw Torso
+			glPushMatrix();
+			setDiffuseColor(COLOR_GRAY);
+			glTranslated(-2, 6.4, -1);
+			drawBox(4, 8, 2);
+
+			setAmbientColor(.1f,.1f,.1f);
+			setDiffuseColor(COLOR_WHITE);
+			glPushMatrix();
+			glTranslated(1, -1, 0.5);
+			glScaled(2, 1, 1);
+			drawRectangularPrism(2, 1, 1);
+			glPopMatrix();
+
+			glPushMatrix();
+			glTranslated(1, -1, 1);
+			glRotated(90, 0.0, 1.0, 0.0);
+			drawCylinder(2, 0.5, 0.5);
+			glPopMatrix();
+
+			glPopMatrix();
+
+
+			// draw right arm
+			glPushMatrix();
+			glTranslated(2.5, 12.5, -1);
+
+			glTranslated(0, 1, 1);
+			glRotated(-VAL(ROTATE_RIGHT_ARM_X) + VAL(LIFT_RIGHT_ARM) + arm_angle, 1.0, 0.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_ARM_Y), 0.0, 1.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_ARM_Z), 0.0, 0.0, 1.0);
+			glTranslated(0, -1, -1);
+			// draw right shoulder
+			
+			setDiffuseColor(COLOR_BLUE);
+			if (VAL(INDIVIDUAL_LOOK))
+			{	
+				glTranslated(1, 1, 1);
+				glutSolidDodecahedron();
+				glTranslated(-1, -1, -1);
+			}
+			else drawShoulder(2, 0.5, VAL(LEVEL_OF_DETAILS));
+			
+
+			glTranslated(0, 0, 0.25);
+			glTranslated(0, -3, 0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawBox(1.5, 3, 1.5);
+			}
+			glTranslated(0, -0.5, 0.5);
+			glTranslated(0, 0, 0.25);
+			glRotated(90, 0.0, 1.0, 0.0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				setDiffuseColor(COLOR_WHITE);
+				drawCylinderWithTexture(1.5, 0.5, 0.5, "Image/YellowTexture.bmp");
+				// drawCylinder(1.5, 0.5, 0.5);
+				setDiffuseColor(COLOR_BLUE);
+			}
+			glRotated(-90, 0.0, 1.0, 0.0);
+			glTranslated(0, 0, -0.25);
+			glTranslated(0.5, 0, 0.25);
+			glRotated(-VAL(ROTATE_RIGHT_ARM_L_X) - 3 * VAL(LIFT_RIGHT_ARM) - 3 * arm_angle, 1.0, 0.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_ARM_L_Y), 0.0, 1.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_ARM_L_Z), 0.0, 0.0, 1.0);
+			glTranslated(-0.5, 0, -0.25);
+			glTranslated(0, -3.5, -0.5);
+			if (VAL(LEVEL_OF_DETAILS) > 2)
+			{
+				drawBox(1.5, 3, 1.5);
+			}
+			glPopMatrix();
+
+			// draw left arm
+			glPushMatrix();
+			glRotated(180, 0.0, 1.0, 0.0);
+			glTranslated(2.5, 12.5, -1);
+
+			glTranslated(0, 1, 1);
+			glRotated(VAL(ROTATE_LEFT_ARM_X) - VAL(LIFT_LEFT_ARM) + arm_angle, 1.0, 0.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_ARM_Y), 0.0, 1.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_ARM_Z), 0.0, 0.0, 1.0);
+			glTranslated(0, -1, -1);
+			// draw left shoulder
+			
+			setDiffuseColor(COLOR_BLUE);
+			if (VAL(INDIVIDUAL_LOOK))
+			{	
+				glTranslated(1, 1, 1);
+				glutSolidDodecahedron();
+				glTranslated(-1, -1, -1);
+			}
+			else drawShoulder(2, 0.5, VAL(LEVEL_OF_DETAILS));
+			glTranslated(0, 0, 0.25);
+			glTranslated(0, -3, 0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawBox(1.5, 3, 1.5);
+			}
+			glTranslated(0, -0.5, 0.5);
+			glTranslated(0, 0, 0.25);
+			glRotated(90, 0.0, 1.0, 0.0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				setDiffuseColor(COLOR_WHITE);
+				drawCylinderWithTexture(1.5, 0.5, 0.5, "Image/YellowTexture.bmp");
+				// drawCylinder(1.5, 0.5, 0.5);
+				setDiffuseColor(COLOR_BLUE);
+			}
+			glRotated(-90, 0.0, 1.0, 0.0);
+			glTranslated(0, 0, -0.25);
+			glTranslated(0.5, 0, 0.25);
+			glRotated(VAL(ROTATE_LEFT_ARM_L_X) + 3 * VAL(LIFT_LEFT_ARM) - 3 * arm_angle, 1.0, 0.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_ARM_L_Y), 0.0, 1.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_ARM_L_Z), 0.0, 0.0, 1.0);
+			glTranslated(-0.5, 0, -0.25);
+			glTranslated(0, -3.5, -0.5);
+			if (VAL(LEVEL_OF_DETAILS) > 2)
+			{
+				drawBox(1.5, 3, 1.5);
+			}
+			glPopMatrix();
+
+			// draw right leg 
+			glPushMatrix();
+			setAmbientColor(.1f,.1f,.1f);
+			setDiffuseColor(COLOR_GREEN);
+
+			glTranslated(0, 5, 0);
+			glRotated(-VAL(ROTATE_RIGHT_LEG_X) - VAL(LIFT_RIGHT_LEG) + leg_angle, 1.0, 0.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_LEG_Y), 0.0, 1.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_LEG_Z), 0.0, 0.0, 1.0);
+			glTranslated(0, -5, 0);
+
+			glTranslated(0.5, 1.5, -1);
+			glScaled(0.75, 1, 1);
+			if (VAL(LEVEL_OF_DETAILS) > 0)
+			{
+				drawBox(2, 4.5, 2);
+			}
+			// draw right lower leg
+			glTranslated(0, -0.5, 1);
+			glRotated(90, 0.0, 1.0, 0.0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawCylinder(2, 0.5, 0.5);
+			}
+			glRotated(-90, 0.0, 1.0, 0.0);
+
+			glTranslated(1, 0, 0);
+			glRotated(-VAL(ROTATE_RIGHT_LEG_L_X) + 2 * VAL(LIFT_RIGHT_LEG) - 2 * leg_angle, 1.0, 0.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_LEG_L_Y), 0.0, 1.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_LEG_L_Z), 0.0, 0.0, 1.0);
+			glTranslated(-1, 0, 0);
+
+			glTranslated(0, -4, -1);
+			glTranslated(0.25, 0, 0.25);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawRectangularPrism(2, 1.5, 3.5);
+			}
+
+			// draw right foot
+			glTranslated(0.5, -1, 1);
+			glRotated(-VAL(ROTATE_RIGHT_FOOT_X) - VAL(LIFT_RIGHT_LEG) + leg_angle, 1.0, 0.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_FOOT_Y), 0.0, 1.0, 0.0);
+			glRotated(VAL(ROTATE_RIGHT_FOOT_Z), 0.0, 0.0, 1.0);
+			glTranslated(-0.5, 1, -1);
+
+			glTranslated(-0.25, 0, -0.25);
+			setAmbientColor(.1f,.1f,.1f);
+			setDiffuseColor(COLOR_RED);
+			glTranslated(0, -2, 0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawRectangularPrism(1.5, 2, 1.5);
+			}
+			glTranslated(1.75, 0, 1.5);
+			glRotated(90, 0.0, 0.0, 1.0);
+			if (VAL(LEVEL_OF_DETAILS) > 2)
+			{
+				drawTriangularPrism(1.5, 1.5, 1.5, 90);
+			}
+			glRotated(-90, 0.0, 0.0, 1.0);
+			glPopMatrix();
+
+			// draw left leg 
+			glPushMatrix();
+			setAmbientColor(.1f,.1f,.1f);
+			setDiffuseColor(COLOR_GREEN);
+			glRotated(180, 0.0, 1.0, 0.0);
+
+			glTranslated(0, 5, 0);
+			glRotated(VAL(ROTATE_LEFT_LEG_X) + VAL(LIFT_LEFT_LEG) + leg_angle, 1.0, 0.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_LEG_Y), 0.0, 1.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_LEG_Z), 0.0, 0.0, 1.0);
+			glTranslated(0, -5, 0);
+
+			glTranslated(0.5, 1.5, -1);
+			glScaled(0.75, 1, 1);
+			if (VAL(LEVEL_OF_DETAILS) > 0)
+			{
+				drawBox(2, 4.5, 2);
+			}
+			// draw left lower leg
+			glTranslated(0, -0.5, 1);
+			glRotated(90, 0.0, 1.0, 0.0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawCylinder(2, 0.5, 0.5);
+			}
+			glRotated(-90, 0.0, 1.0, 0.0);
+
+			glTranslated(1, 0, 0);
+			glRotated(VAL(ROTATE_LEFT_LEG_L_X) - 2 * VAL(LIFT_LEFT_LEG) - 2 * leg_angle, 1.0, 0.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_LEG_L_Y), 0.0, 1.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_LEG_L_Z), 0.0, 0.0, 1.0);
+			glTranslated(-1, 0, 0);
+
+			glTranslated(0, -4, -1);
+			glTranslated(0.25, 0, 0.25);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawRectangularPrism(2, 1.5, 3.5);
+			}
+
+			// draw left foot
+			glTranslated(0.5, -1, 1);
+			glRotated(VAL(ROTATE_LEFT_FOOT_X) + VAL(LIFT_LEFT_LEG) + leg_angle, 1.0, 0.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_FOOT_Y), 0.0, 1.0, 0.0);
+			glRotated(-VAL(ROTATE_LEFT_FOOT_Z), 0.0, 0.0, 1.0);
+			glTranslated(-0.5, 1, -1);
+
+			glTranslated(-0.25, 0, -0.25);
+			setAmbientColor(.1f,.1f,.1f);
+			setDiffuseColor(COLOR_RED);
+			glTranslated(0, -2, 0);
+			if (VAL(LEVEL_OF_DETAILS) > 1)
+			{
+				drawRectangularPrism(1.5, 2, 1.5);
+			}
+			glTranslated(1.75, 0, 0.5);
+			glRotated(-90, 1.0, 0.0, 0.0);
+			glRotated(90, 0.0, 0.0, 1.0);
+			if (VAL(LEVEL_OF_DETAILS) > 2)
+			{
+				drawTriangularPrism(1.5, 1.5, 1.5, 90);
+			}
+			glRotated(-90, 0.0, 0.0, 1.0);
+			glRotated(90, 1.0, 0.0, 0.0);
+			glPopMatrix();
+
+		glPopMatrix();
+		glDisable(GL_STENCIL_TEST);
+	}
+
 	if (VAL(INVERSE_KINEMATICS))
 	{
 		IK_calculation();
@@ -695,6 +987,8 @@ int main()
 	controls[CSTRN_Z] = ModelerControl("Constraint point Z", 10, 30, 1, 15);
 
 	controls[PARTICLE_NUM] = ModelerControl("Number of particel", 0, 50, 1, 5);
+	controls[SKYBOX] = ModelerControl("Sky Box", 0, 1, 1, 0);
+	controls[MIRROR] = ModelerControl("Mirror", 0 , 1, 1, 0);
 
 	// You should create a ParticleSystem object ps here and then
 	// call ModelerApplication::Instance()->SetParticleSystem(ps)

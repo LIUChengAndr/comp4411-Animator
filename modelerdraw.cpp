@@ -681,13 +681,11 @@ void drawHead(double angle, int level)
         drawTorus(0.15, 0.05);
         glRotated(-90, 1.0, 0.0, 0.0);
 
-        glPushMatrix();
         setAmbientColor(.1f,.1f,.1f);
         setDiffuseColor(COLOR_YELLOW);
         glTranslated(0, -1, 0);
         glScaled(0.2, 0.2, 0.2);
         glutSolidDodecahedron();
-        glPopMatrix();
 
         glPopMatrix();
 

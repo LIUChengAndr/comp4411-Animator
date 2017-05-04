@@ -44,6 +44,8 @@ enum SampleModelControls
 	CSTRN_Z,
 
 	PARTICLE_NUM,
+	SKYBOX,
+	MIRROR,
 
 	NUMCONTROLS
 };
