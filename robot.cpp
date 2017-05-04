@@ -5,6 +5,7 @@
 #include "modelerdraw.h"
 #include <FL/gl.h>
 #include <FL/glut.h>
+#include <GL/glu.h>
 #include <string>
 #include "vec.h"
 #include "mat.h"
@@ -116,7 +117,7 @@ public:
     void drawParticles(Mat4d CameraMatrix, int num)
 	{
 	    Mat4d WorldMatrix = CameraMatrix.inverse() * getModelViewMatrix();
-	    Vec4d pos = WorldMatrix * Vec4d(0, 10, 2, 0);
+	    Vec4d pos = WorldMatrix * Vec4d(0.5, 1, -2, 1);
 	    ParticleSystem *ps = ModelerApplication::Instance()->GetParticleSystem();
 	    ps->SpawnParticles(Vec3d(pos[0], pos[1], pos[2]), num);
 	}
@@ -153,6 +154,19 @@ void SampleModel::draw()
     // This call takes care of a lot of the nasty projection 
     // matrix stuff.  Unless you want to fudge directly with the 
 	// projection matrix, don't bother with this ...
+
+	if (VAL(MOTION_BLUR))
+	{
+		// Clear the draw and depth buffers
+	    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	 
+	    // Take the contents of the current accumulation buffer and copy it to the colour buffer with each pixel multiplied by a factor
+	    // i.e. we clear the screen, draw the last frame again (which we saved in the accumulation buffer), then draw our stuff at its new location on top of that
+	    glAccum(GL_RETURN, 0.5f);
+	 
+	    // Clear the accumulation buffer (don't worry, we re-grab the screen into the accumulation buffer after drawing our current frame!)
+	    glClear(GL_ACCUM_BUFFER_BIT);
+	}
 	
     ModelerView::draw();
     Mat4d CameraMatrix = getModelViewMatrix();
@@ -912,6 +926,17 @@ void SampleModel::draw()
 	
 	
 	}
+
+	if (VAL(MOTION_BLUR))
+	{
+		// // Swap the buffers so we can see what we've drawn without -watching- it being drawn
+		 //    SDL_GL_SwapBuffers();
+	 
+	    // Take the contents of the current draw buffer and copy it to the accumulation buffer with each pixel modified by a factor
+	    // The closer the factor is to 1.0f, the longer the trails... Don't exceed 1.0f - you get garbage.
+	    // glutSwapBuffers();
+	    glAccum(GL_ACCUM, 0.5f);
+	}
 	endDraw();
 }
 
@@ -920,6 +945,7 @@ int main()
 	// Initialize the controls
 	// Constructor is ModelerControl(name, minimumvalue, maximumvalue, 
 	// stepsize, defaultvalue)
+	glutInitDisplayMode(GLUT_RGBA | GLUT_DEPTH | GLUT_DOUBLE| GLUT_ACCUM);
     ModelerControl controls[NUMCONTROLS];
     controls[XPOS] = ModelerControl("X Position", -5, 5, 0.1f, 0);
     controls[YPOS] = ModelerControl("Y Position", 0, 5, 0.1f, 0);
@@ -989,6 +1015,7 @@ int main()
 	controls[PARTICLE_NUM] = ModelerControl("Number of particel", 0, 50, 1, 5);
 	controls[SKYBOX] = ModelerControl("Sky Box", 0, 1, 1, 0);
 	controls[MIRROR] = ModelerControl("Mirror", 0 , 1, 1, 0);
+	controls[MOTION_BLUR] = ModelerControl("Motion Blur", 0, 1, 1, 0);
 
 	// You should create a ParticleSystem object ps here and then
 	// call ModelerApplication::Instance()->SetParticleSystem(ps)

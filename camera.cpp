@@ -19,6 +19,7 @@ const float kMouseRotationSensitivity		= 1.0f/90.0f;
 const float kMouseTranslationXSensitivity	= 0.03f;
 const float kMouseTranslationYSensitivity	= 0.03f;
 const float kMouseZoomSensitivity			= 0.08f;
+const float kMouseTwistSensitivity 			= 0.004f;
 
 void MakeDiagonal(Mat4f &m, float k)
 {
@@ -236,6 +237,11 @@ void Camera::dragMouse( int x, int y )
 		}
 	case kActionTwist:
 		// Not implemented
+		{
+			float dTwist = -mouseDelta[0] * kMouseTwistSensitivity;
+			setTwist(getTwist() + dTwist);
+			break;
+		}
 	default:
 		break;
 	}

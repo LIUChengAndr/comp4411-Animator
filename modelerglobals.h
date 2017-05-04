@@ -46,6 +46,7 @@ enum SampleModelControls
 	PARTICLE_NUM,
 	SKYBOX,
 	MIRROR,
+	MOTION_BLUR,
 
 	NUMCONTROLS
 };

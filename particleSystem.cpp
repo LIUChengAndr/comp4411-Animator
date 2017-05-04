@@ -104,6 +104,12 @@ void ParticleSystem::computeForcesAndUpdateParticles(float t)
 				it->nextPos(bake_fps);
 			}
 			bakeParticles(t);
+			printf("not baked\n");
+		}
+		else 
+		{
+			particles = bakeInfo[t];
+			printf("baked\n");
 		}
 	}
 }
@@ -119,7 +125,6 @@ void ParticleSystem::drawParticles(float t)
 		for (std::vector<Particle>:: iterator it = particles.begin(); it != particles.end(); it++)
 		{
 			it->draw();
-			printf("drawing\n");
 		}
 	}
 }
@@ -164,9 +169,11 @@ void ParticleSystem:: SpawnParticles(Vec3d pos, int num)
 				double F = rand() % 10 / 10.0 + 0.2;
 				double theta = rand() % 360 / 57.3;
 
-				double xSpeed = rand() % 10 / 10.0 + 2;
-				double ySpeed = cos(theta) * F;
-				double zSpeed = sin(theta) * F;
+				double zSpeed = -(rand() % 10 / 10.0 + 5);
+				// double ySpeed = cos(theta) * F;
+				// double xSpeed = sin(theta) * F;
+				double ySpeed = 0;
+				double xSpeed = -(rand() % 10 / 10.0 ) + 0.5;
 				p.setSpeed(Vec3d(xSpeed, ySpeed, zSpeed));
 				for (std::vector<Force*>::iterator it = forces.begin(); it != forces.end(); it++)
 				{
